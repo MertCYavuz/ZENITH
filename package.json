@@ -1,0 +1,26 @@
+{
+  "name": "zenith-focus-os",
+  "version": "2.0.0",
+  "description": "ZENITH — Daily Focus, Time & Agenda Desktop OS built with Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "zenith",
+    "productivity",
+    "pomodoro",
+    "focus",
+    "timer",
+    "kanban",
+    "tasks",
+    "agenda",
+    "electron",
+    "desktop-app"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^40.8.0"
+  }
+}

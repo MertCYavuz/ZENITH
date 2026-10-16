@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZENITH — Daily Focus & Time OS</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ================= WELCOME SCREEN ================= -->
+  <section id="welcomeScreen" class="welcome-screen">
+    <div class="content-wrapper welcome-hero">
+      <!-- ZENITH Hero Crest Logo -->
+      <div class="zenith-hero-emblem">
+        <div class="zenith-emblem-glow"></div>
+        <svg class="zenith-hero-svg" viewBox="0 0 120 120" width="96" height="96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="66" rx="50" ry="18" transform="rotate(-18 60 66)" stroke="currentColor" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="4 4" />
+          <polygon points="60,16 22,88 60,100" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+          <polygon points="60,16 98,88 60,100" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+          <line x1="60" y1="16" x2="60" y2="100" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2.2" />
+          <polyline points="35,64 60,74 85,64" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.6" fill="none" />
+          <path d="M 13 81 A 50 18 -18 0 0 107 51" stroke="#ffffff" stroke-opacity="0.9" stroke-width="2.6" stroke-linecap="round" />
+          <circle cx="60" cy="16" r="3.5" fill="#ffffff" />
+        </svg>
+      </div>
+
+      <div class="zenith-hero-titles">
+        <h1 class="zenith-title">ZENITH</h1>
+        <p class="zenith-subtitle">DAILY FOCUS &bull; TIME &bull; AGENDA OS</p>
+      </div>
+
+      <button id="startButton" class="btn-start" type="button">
+        <span class="btn-text">Başla</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= TOAST NOTIFICATIONS CONTAINER ================= -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ================= MAIN APP SCREEN ================= -->
+  <main id="appScreen" class="app-screen hidden">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-logo-wrap">
+            <svg class="brand-logo-svg" viewBox="0 0 40 40" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,4 6,31 20,36" fill="currentColor" fill-opacity="0.28" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <polygon points="20,4 34,31 20,36" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <line x1="20" y1="4" x2="20" y2="36" stroke="#ffffff" stroke-opacity="0.9" stroke-width="1.8" />
+              <path d="M 4 27 A 17 6 -18 0 0 36 16" stroke="#ffffff" stroke-opacity="0.9" stroke-width="2" stroke-linecap="round" />
+              <circle cx="20" cy="4" r="2" fill="#ffffff" />
+            </svg>
+          </div>
+          <div class="brand-text-col">
+            <span class="brand-name">ZENITH</span>
+            <span class="brand-tag">FOCUS OS</span>
+          </div>
+        </div>
+        <!-- Streak Tracker -->
+        <div class="streak-badge" id="streakBadge" title="Daily Login Streak (Increases every day after 00:00)">
+          <span class="streak-fire">🔥</span>
+          <span class="streak-count" id="streakCount">0</span>
+        </div>
+      </div>
+
+      <!-- Feature #2: XP, Level & Rank Card -->
+      <div class="xp-rank-card" id="xpRankCard" title="Complete tasks and focus sessions to earn XP and rank up!">
+        <div class="xp-top-row">
+          <span class="xp-level-badge" id="xpLevelBadge">LVL 1</span>
+          <span class="xp-rank-title" id="xpRankTitle">Novice</span>
+          <span class="xp-numbers" id="xpNumbers">0 / 200 XP</span>
+        </div>
+        <div class="xp-bar-track">
+          <div class="xp-bar-fill" id="xpBarFill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Feature #14: Big Day / Exam Countdown Card -->
+      <div class="big-day-card" id="btnBigDayCard" title="Click to set or edit your Big Day / Exam countdown">
+        <div class="big-day-left">
+          <span class="big-day-icon">⏳</span>
+          <div class="big-day-info">
+            <span class="big-day-title" id="bigDayTitleDisplay">Set Target Milestone</span>
+            <span class="big-day-date" id="bigDayDateDisplay">Click to configure date</span>
+          </div>
+        </div>
+        <div class="big-day-counter" id="bigDayDaysLeft">--</div>
+      </div>
+
+      <!-- Top Action: New Daily Task Button -->
+      <div class="sidebar-action">
+        <button id="btnNewDailyTask" class="btn-new-task" type="button">
+          <svg class="icon-plus" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>New Daily Task</span>
+        </button>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">WORKSPACE & INSIGHTS</div>
+        <ul class="nav-list">
+          <li class="nav-item active" id="navDailyTasks">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Daily Tasks</span>
+            <span class="badge" id="dailyTaskBadge">0</span>
+          </li>
+          <li class="nav-item" id="navCompleted">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            <span>Completed</span>
+            <span class="badge badge-subtle" id="completedTaskBadge">0</span>
+          </li>
+          <li class="nav-item" id="navNotes">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+            <span>Scratchpad & Notes</span>
+            <span class="badge badge-subtle" id="notesCountBadge">0</span>
+          </li>
+          <li class="nav-item" id="navAnalytics">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Analytics</span>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Bottom Stacked Action Buttons: Calendar & Time -->
+      <div class="sidebar-bottom-actions">
+        <button id="btnCalendar" class="btn-side-action btn-calendar" type="button">
+          <svg class="action-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Calendar</span>
+        </button>
+
+        <button id="btnTime" class="btn-side-action btn-time" type="button">
+          <svg class="action-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Time</span>
+        </button>
+      </div>
+
+      <!-- Sidebar Footer (Settings) -->
+      <div class="sidebar-footer">
+        <button id="btnSettings" class="btn-settings-trigger" type="button">
+          <svg class="settings-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="main-content">
+      <header class="content-header">
+        <div>
+          <h1 class="page-title" id="pageTitle">Daily Tasks</h1>
+          <p class="page-subtitle" id="currentDateDisplay">Today</p>
+        </div>
+
+        <div class="header-actions">
+          <!-- Feature #8: Daily Focus Goal Ring -->
+          <button id="btnDailyGoalRing" class="goal-ring-pill" type="button" title="Daily Focus Goal Progress (Click to change target)">
+            <svg class="goal-ring-svg" viewBox="0 0 36 36" width="28" height="28">
+              <circle class="goal-ring-bg" cx="18" cy="18" r="14" fill="none" stroke-width="3.5"></circle>
+              <circle id="goalRingCircle" class="goal-ring-fill" cx="18" cy="18" r="14" fill="none" stroke-width="3.5" stroke-dasharray="88" stroke-dashoffset="88"></circle>
+            </svg>
+            <div class="goal-ring-text">
+              <span class="goal-ring-label">DAILY GOAL</span>
+              <span class="goal-ring-val" id="goalRingText">0 / 180m</span>
+            </div>
+          </button>
+
+          <!-- Feature #18: Hydration / Water Tracker -->
+          <button id="btnWaterTracker" class="btn-header-pill" type="button" title="Left-click: Drink 1 glass of water (+5 XP) | Right-click: Reset">
+            <span>💧</span>
+            <span id="waterCountText">0 / 8</span>
+          </button>
+
+          <!-- Feature #16: Daily Wrap-Up Report -->
+          <button id="btnDailyWrapUp" class="btn-header-pill" type="button" title="Open Today's Wrap-Up Summary Report">
+            <span>🌅</span>
+            <span>Wrap-Up</span>
+          </button>
+
+          <!-- Feature #3: Mini Widget -->
+          <button id="btnMiniMode" class="btn-mini-mode" type="button" title="Always-On-Top Mini Widget (Ctrl+Shift+M)">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <rect x="12" y="8" width="8" height="7" rx="1" ry="1"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>Mini Widget</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Always-On-Top Mini Desktop Widget Bar -->
+      <div id="miniWidgetBar" class="mini-widget-bar hidden">
+        <div class="mini-info">
+          <span class="mini-status-dot"></span>
+          <span class="mini-task-title" id="miniTaskTitle">ZENITH Focus</span>
+        </div>
+        <div class="mini-timer" id="miniTimerDisplay">00:00:00</div>
+        <div class="mini-controls">
+          <button id="miniBtnPlayPause" class="btn-mini-action" type="button" title="Play/Pause">▶</button>
+          <button id="miniBtnBreak" class="btn-mini-action" type="button" title="Break">☕</button>
+          <button id="miniBtnExpand" class="btn-mini-action btn-expand" type="button" title="Expand Full App">⤢</button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: TASKS VIEW (GRID + KANBAN BOARD) -->
+      <div id="tasksView" class="view-panel">
+        <!-- Tasks Toolbar: Category Filter, Recurring Filter & Grid/Kanban Switcher -->
+        <div class="tasks-toolbar">
+          <div class="category-filters" id="categoryFilterBar">
+            <button type="button" class="btn-cat-filter active" data-cat="all">All</button>
+            <button type="button" class="btn-cat-filter" data-cat="Study">#Study</button>
+            <button type="button" class="btn-cat-filter" data-cat="Coding">#Coding</button>
+            <button type="button" class="btn-cat-filter" data-cat="Exam">#Exam</button>
+            <button type="button" class="btn-cat-filter" data-cat="Work">#Work</button>
+            <button type="button" class="btn-cat-filter" data-cat="Fitness">#Fitness</button>
+          </div>
+
+          <div class="tasks-toolbar-right">
+            <select id="selectPrioritySort" class="toolbar-select" title="Sort Tasks">
+              <option value="newest">Sort: Newest</option>
+              <option value="priority">Sort: Priority (High → Low)</option>
+            </select>
+
+            <!-- Feature #17: Grid vs Kanban Board Switcher -->
+            <div class="view-layout-switcher">
+              <button type="button" id="btnLayoutGrid" class="btn-layout active" title="Grid Cards View">
+                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Grid</span>
+              </button>
+              <button type="button" id="btnLayoutKanban" class="btn-layout" title="Kanban Board View (To-Do / In Progress / Done)">
+                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+                  <rect x="3" y="3" width="5" height="18" rx="1"></rect>
+                  <rect x="10" y="3" width="5" height="12" rx="1"></rect>
+                  <rect x="17" y="3" width="5" height="15" rx="1"></rect>
+                </svg>
+                <span>Kanban</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-area">
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon-wrap">
+              <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="1.8" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <h3 id="emptyTitle">No Daily Tasks Yet</h3>
+            <p id="emptyDesc">Click <strong>"New Daily Task"</strong> in the sidebar to add your first task.</p>
+          </div>
+
+          <!-- Task Cards Grid -->
+          <div id="taskGrid" class="task-grid hidden"></div>
+
+          <!-- Feature #17: Kanban Board Container -->
+          <div id="kanbanBoard" class="kanban-board hidden">
+            <div class="kanban-col" data-status="todo">
+              <div class="kanban-col-header">
+                <span class="kanban-dot dot-todo"></span>
+                <h4>To-Do</h4>
+                <span class="kanban-count" id="kanbanCountTodo">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanColTodo" data-status="todo"></div>
+            </div>
+
+            <div class="kanban-col" data-status="inprogress">
+              <div class="kanban-col-header">
+                <span class="kanban-dot dot-progress"></span>
+                <h4>In Progress</h4>
+                <span class="kanban-count" id="kanbanCountProgress">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanColProgress" data-status="inprogress"></div>
+            </div>
+
+            <div class="kanban-col" data-status="done">
+              <div class="kanban-col-header">
+                <span class="kanban-dot dot-done"></span>
+                <h4>Done</h4>
+                <span class="kanban-count" id="kanbanCountDone">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanColDone" data-status="done"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: TIME VIEW (LIVE CLOCK + STOPWATCH/TIMER/POMODORO + AMBIENT MIXER) -->
+      <div id="timeView" class="view-panel hidden">
+        <div class="time-container">
+          <!-- Live Clock Card -->
+          <div class="time-card clock-card">
+            <div class="time-card-badge">LIVE CLOCK</div>
+            <div class="digital-clock" id="liveDigitalClock">00:00:00</div>
+            <div class="clock-date" id="liveClockDate">Loading date...</div>
+          </div>
+
+          <!-- Timer Card (Stopwatch, Countdown Timer & Pomodoro Focus Mode) -->
+          <div class="time-card stopwatch-card">
+            <div class="timer-top-bar">
+              <div class="timer-mode-switcher" style="margin-bottom:0; flex:1;">
+                <button id="btnModeStopwatch" class="btn-timer-tab active" type="button">Stopwatch</button>
+                <button id="btnModeCountdown" class="btn-timer-tab" type="button">Timer</button>
+                <button id="btnModePomodoro" class="btn-timer-tab" type="button">Pomodoro Focus</button>
+              </div>
+              <!-- Feature #15: Strict Focus Lock Mode Toggle -->
+              <button id="btnStrictFocus" class="btn-strict-focus" type="button" title="Strict Focus Lock: Prevents leaving or resetting while timer is running">
+                <span>🔒</span>
+                <span>Strict Lock</span>
+              </button>
+            </div>
+
+            <!-- Active Focus Task Banner -->
+            <div id="activeFocusBanner" class="active-focus-banner hidden">
+              <span class="focus-pill">FOCUSING ON</span>
+              <span id="activeFocusTaskName" class="focus-task-name">General Focus</span>
+            </div>
+
+            <!-- Countdown Timer Picker (visible in Timer mode) -->
+            <div id="countdownSetup" class="countdown-setup hidden">
+              <div class="cd-picker-row">
+                <div class="cd-unit-box">
+                  <button type="button" class="btn-cd-step" data-cd-action="h-dec">−</button>
+                  <div class="cd-unit-field">
+                    <input type="number" id="cdHoursInput" min="0" max="23" value="0" />
+                    <span>hr</span>
+                  </div>
+                  <button type="button" class="btn-cd-step" data-cd-action="h-inc">+</button>
+                </div>
+                <span class="cd-sep">:</span>
+                <div class="cd-unit-box">
+                  <button type="button" class="btn-cd-step" data-cd-action="m-dec">−</button>
+                  <div class="cd-unit-field">
+                    <input type="number" id="cdMinutesInput" min="0" max="59" value="30" />
+                    <span>min</span>
+                  </div>
+                  <button type="button" class="btn-cd-step" data-cd-action="m-inc">+</button>
+                </div>
+              </div>
+              <div class="cd-quick-chips">
+                <button type="button" class="btn-cd-chip" data-h="0" data-m="15">15m</button>
+                <button type="button" class="btn-cd-chip active" data-h="0" data-m="30">30m</button>
+                <button type="button" class="btn-cd-chip" data-h="0" data-m="45">45m</button>
+                <button type="button" class="btn-cd-chip" data-h="1" data-m="0">1h</button>
+                <button type="button" class="btn-cd-chip" data-h="1" data-m="30">1h 30m</button>
+                <button type="button" class="btn-cd-chip" data-h="2" data-m="0">2h</button>
+              </div>
+            </div>
+
+            <!-- Pomodoro Presets (visible in Pomodoro mode) -->
+            <div id="pomoPresets" class="pomo-presets hidden">
+              <button class="btn-pomo-preset active" data-mins="25" type="button">25m</button>
+              <button class="btn-pomo-preset" data-mins="45" type="button">45m</button>
+              <button class="btn-pomo-preset" data-mins="60" type="button">60m</button>
+            </div>
+
+            <div class="stopwatch-display" id="stopwatchDisplay">00:00:00<span class="ms-display">.00</span></div>
+            
+            <div class="stopwatch-controls">
+              <button id="btnSwStart" class="btn-sw btn-sw-primary" type="button">Start</button>
+              
+              <!-- Break Button: Gray by default, turns Red when active -->
+              <button id="btnSwBreak" class="btn-sw btn-sw-break" type="button" disabled>
+                <span class="break-indicator-dot"></span>
+                <span id="breakBtnText">Break</span>
+              </button>
+
+              <button id="btnSwReset" class="btn-sw btn-sw-secondary" type="button" disabled>Reset</button>
+            </div>
+
+            <!-- Breaks Record Container -->
+            <div class="breaks-container" id="breaksContainer">
+              <div class="breaks-header">
+                <span>Break #</span>
+                <span>Duration</span>
+                <span>Started At</span>
+              </div>
+              <ul class="breaks-list" id="breaksList">
+                <li class="no-breaks-hint" id="noBreaksHint">No breaks recorded yet.</li>
+              </ul>
+              <div class="breaks-summary hidden" id="breaksSummary">
+                <span>Total Break Time:</span>
+                <strong id="totalBreakTime">00:00:00</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature #1: Ambient Focus Sound Mixer Card -->
+          <div class="time-card ambient-mixer-card">
+            <div class="ambient-header">
+              <div class="ambient-title-wrap">
+                <span>🎧</span>
+                <h4>Ambient Focus Soundscapes</h4>
+              </div>
+              <div class="ambient-volume-wrap">
+                <span>🔊</span>
+                <input type="range" id="ambientVolumeSlider" min="0" max="100" value="40" title="Ambient Sound Volume" />
+              </div>
+            </div>
+            <div class="ambient-buttons-grid">
+              <button type="button" class="btn-ambient" data-sound="rain">
+                <span class="amb-icon">🌧️</span>
+                <span class="amb-name">Soft Rain</span>
+              </button>
+              <button type="button" class="btn-ambient" data-sound="brown">
+                <span class="amb-icon">🌊</span>
+                <span class="amb-name">Deep Brown Noise</span>
+              </button>
+              <button type="button" class="btn-ambient" data-sound="binaural">
+                <span class="amb-icon">🧠</span>
+                <span class="amb-name">Alpha Focus 40Hz</span>
+              </button>
+              <button type="button" class="btn-ambient" data-sound="fire">
+                <span class="amb-icon">🔥</span>
+                <span class="amb-name">Cozy Fireplace</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: CALENDAR VIEW -->
+      <div id="calendarView" class="view-panel hidden">
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <h2 class="calendar-title" id="calendarMonthYear">October 2026</h2>
+            <div class="calendar-nav-buttons">
+              <button id="btnCalPrev" class="btn-cal-nav" type="button" title="Previous Month">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button id="btnCalToday" class="btn-cal-today" type="button">Today</button>
+              <button id="btnCalNext" class="btn-cal-nav" type="button" title="Next Month">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: ANALYTICS VIEW (WEEKLY, MONTHLY, YEARLY + HEATMAP + CATEGORY BREAKDOWN + EXPORT) -->
+      <div id="analyticsView" class="view-panel hidden">
+        <div class="analytics-container">
+          <!-- Timeframe Selector + Export Progress Card -->
+          <div class="analytics-toolbar">
+            <div class="timeframe-tabs">
+              <button class="btn-timeframe active" data-timeframe="weekly" type="button">Weekly</button>
+              <button class="btn-timeframe" data-timeframe="monthly" type="button">Monthly</button>
+              <button class="btn-timeframe" data-timeframe="yearly" type="button">Yearly</button>
+            </div>
+            <div class="analytics-toolbar-right">
+              <div class="analytics-date-label" id="analyticsRangeLabel">This Week</div>
+              <!-- Feature #20: Export Shareable Progress Card -->
+              <button id="btnExportProgressCard" class="btn-export-card" type="button" title="Download Shareable PNG Progress Report Card">
+                <span>📄</span>
+                <span>Export Progress Card</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Metric Cards -->
+          <div class="analytics-metrics-grid">
+            <div class="metric-card">
+              <div class="metric-title">TOTAL FOCUS TIME</div>
+              <div class="metric-value" id="metricFocusTime">0h 00m</div>
+              <div class="metric-sub">Focus & task duration</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">TASKS COMPLETED</div>
+              <div class="metric-value" id="metricTasksDone">0</div>
+              <div class="metric-sub" id="metricTasksRatio">0% Completion rate</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">BREAKS TAKEN</div>
+              <div class="metric-value" id="metricBreaksCount">0</div>
+              <div class="metric-sub" id="metricBreaksTime">0m Total break</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">PRODUCTIVITY SCORE</div>
+              <div class="metric-value" id="metricScore">0%</div>
+              <div class="metric-sub">Based on consistency</div>
+            </div>
+          </div>
+
+          <!-- Chart Card -->
+          <div class="analytics-chart-card">
+            <div class="chart-header">
+              <h3>Activity & Focus Breakdown</h3>
+              <span class="chart-legend"><span class="legend-dot"></span> Focus Minutes</span>
+            </div>
+            <div class="bar-chart-container" id="barChartContainer"></div>
+          </div>
+
+          <!-- Feature #12 & #13: Category Distribution & Session Reflections Row -->
+          <div class="analytics-split-row">
+            <!-- Feature #12: Category / Task Distribution -->
+            <div class="analytics-chart-card">
+              <div class="chart-header">
+                <h3>Category & Subject Distribution</h3>
+                <span class="chart-legend">By Focus Share</span>
+              </div>
+              <div id="categoryDistContainer" class="category-dist-container"></div>
+            </div>
+
+            <!-- Feature #13: Recent Focus Reflections & Ratings -->
+            <div class="analytics-chart-card">
+              <div class="chart-header">
+                <h3>Session Reflections & Ratings</h3>
+                <span class="chart-legend">⭐ Focus Log</span>
+              </div>
+              <div id="sessionReflectionsList" class="session-reflections-list"></div>
+            </div>
+          </div>
+
+          <!-- Feature #5: GitHub-Style 365-Day Contribution Heatmap -->
+          <div class="analytics-chart-card">
+            <div class="chart-header">
+              <h3>Yearly Consistency Heatmap (Last 52 Weeks)</h3>
+              <span class="chart-legend">Less ▫ ▪ ◼ ⬛ More</span>
+            </div>
+            <div id="heatmapGrid" class="heatmap-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 5: SCRATCHPAD & STICKY NOTES VIEW (Feature #7) -->
+      <div id="notesView" class="view-panel hidden">
+        <div class="notes-workspace">
+          <!-- Left: Quick Auto-Saving Scratchpad -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div>
+                <h3>📝 Quick Scratchpad</h3>
+                <p>Auto-saves instantly as you type (Formulas, links, study notes)</p>
+              </div>
+              <div class="scratchpad-actions">
+                <span id="scratchpadWordCount" class="word-count-badge">0 words</span>
+                <button type="button" id="btnCopyScratchpad" class="btn-setting-action">Copy</button>
+                <button type="button" id="btnClearScratchpad" class="btn-setting-danger">Clear</button>
+              </div>
+            </div>
+            <textarea id="scratchpadTextarea" class="scratchpad-textarea" placeholder="Write quick thoughts, code snippets, lecture notes, or daily brainstorms here..."></textarea>
+          </div>
+
+          <!-- Right: Sticky Notes Board -->
+          <div class="sticky-board-card">
+            <div class="scratchpad-header">
+              <div>
+                <h3>📌 Pinned Sticky Notes</h3>
+                <p>Keep key reminders and formulas pinned</p>
+              </div>
+              <button type="button" id="btnAddStickyNote" class="btn-primary btn-sm-primary">+ New Note</button>
+            </div>
+            <div id="stickyNotesGrid" class="sticky-notes-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= NEW TASK MODAL ================= -->
+  <div id="taskModal" class="modal-backdrop hidden">
+    <div class="modal-window modal-window-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-dot"></div>
+          <h2>New Daily Task</h2>
+        </div>
+        <button id="modalCloseBtn" class="btn-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="taskForm" class="modal-form">
+        <!-- Task Name -->
+        <div class="form-group">
+          <label for="taskNameInput">Task Name</label>
+          <input 
+            type="text" 
+            id="taskNameInput" 
+            placeholder="e.g., Build login screen, Study algorithms" 
+            required 
+            autocomplete="off"
+            maxlength="80"
+          />
+        </div>
+
+        <!-- Feature #3: Priority & Category Row -->
+        <div class="form-row-split">
+          <div class="form-group" style="flex:1;">
+            <label for="taskPrioritySelect">Priority Level</label>
+            <select id="taskPrioritySelect" class="setting-select" style="width:100%;">
+              <option value="high">🔴 High Priority (+75 XP)</option>
+              <option value="medium" selected>🟡 Medium Priority (+50 XP)</option>
+              <option value="low">🟢 Low Priority (+35 XP)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label for="taskCategorySelect">Category / Tag</label>
+            <select id="taskCategorySelect" class="setting-select" style="width:100%;">
+              <option value="Study">#Study</option>
+              <option value="Coding">#Coding</option>
+              <option value="Exam">#Exam</option>
+              <option value="Work">#Work</option>
+              <option value="Fitness">#Fitness</option>
+              <option value="Personal">#Personal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- What to do (Description) -->
+        <div class="form-group">
+          <label for="taskDescInput">What to do (Description)</label>
+          <textarea 
+            id="taskDescInput" 
+            rows="2" 
+            placeholder="Describe what needs to be done..."
+            maxlength="300"
+          ></textarea>
+        </div>
+
+        <!-- Feature #4: Subtasks / Checklist Builder -->
+        <div class="form-group">
+          <label>Subtasks / Steps Checklist (Optional)</label>
+          <div class="subtask-builder-row">
+            <input type="text" id="subtaskAddInput" placeholder="e.g., Watch lecture video 1, Solve 20 questions..." maxlength="80" />
+            <button type="button" id="btnAddSubtaskModal" class="btn-setting-action">+ Add Step</button>
+          </div>
+          <ul id="modalSubtasksList" class="modal-subtasks-list"></ul>
+        </div>
+
+        <!-- Feature #11: Recurring Days Selector -->
+        <div class="form-group">
+          <label>Repeat Days (Recurring Schedule)</label>
+          <div class="recurring-days-row" id="recurringDaysRow">
+            <button type="button" class="btn-day-pill active" data-day="0">Sun</button>
+            <button type="button" class="btn-day-pill active" data-day="1">Mon</button>
+            <button type="button" class="btn-day-pill active" data-day="2">Tue</button>
+            <button type="button" class="btn-day-pill active" data-day="3">Wed</button>
+            <button type="button" class="btn-day-pill active" data-day="4">Thu</button>
+            <button type="button" class="btn-day-pill active" data-day="5">Fri</button>
+            <button type="button" class="btn-day-pill active" data-day="6">Sat</button>
+          </div>
+        </div>
+
+        <!-- Allocated Time / Target Goal -->
+        <div class="form-group">
+          <div class="goal-type-header">
+            <label>Allocated Time / Target</label>
+            <div class="goal-type-tabs">
+              <button type="button" id="btnGoalTypeTime" class="btn-goal-type active" data-goal="time">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.2" fill="none">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Time (Hr & Min)</span>
+              </button>
+              <button type="button" id="btnGoalTypeText" class="btn-goal-type" data-goal="text">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.2" fill="none">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>Text Goal</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mode 1: Select Hours & Minutes -->
+          <div id="goalTimePanel" class="goal-panel">
+            <div class="time-picker-container">
+              <div class="time-picker-unit">
+                <span class="unit-title">HOURS</span>
+                <div class="unit-stepper">
+                  <button type="button" class="btn-step" data-step="h-dec">−</button>
+                  <input type="number" id="taskHoursInput" min="0" max="23" value="0" />
+                  <button type="button" class="btn-step" data-step="h-inc">+</button>
+                </div>
+              </div>
+
+              <div class="time-picker-divider">:</div>
+
+              <div class="time-picker-unit">
+                <span class="unit-title">MINUTES</span>
+                <div class="unit-stepper">
+                  <button type="button" class="btn-step" data-step="m-dec">−</button>
+                  <input type="number" id="taskMinutesInput" min="0" max="59" value="30" />
+                  <button type="button" class="btn-step" data-step="m-inc">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="quick-time-presets">
+              <button type="button" class="btn-time-chip" data-h="0" data-m="15">15m</button>
+              <button type="button" class="btn-time-chip active" data-h="0" data-m="30">30m</button>
+              <button type="button" class="btn-time-chip" data-h="0" data-m="45">45m</button>
+              <button type="button" class="btn-time-chip" data-h="1" data-m="0">1h</button>
+              <button type="button" class="btn-time-chip" data-h="1" data-m="30">1h 30m</button>
+              <button type="button" class="btn-time-chip" data-h="2" data-m="0">2h</button>
+            </div>
+            <p class="goal-mode-hint">⏳ Clicking <strong>Focus</strong> will count down from this selected time.</p>
+          </div>
+
+          <!-- Mode 2: Textual Target / Goal -->
+          <div id="goalTextPanel" class="goal-panel hidden">
+            <div class="input-with-icon">
+              <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+              <input 
+                type="text" 
+                id="taskTextGoalInput" 
+                placeholder="e.g., 2 video lectures, 10 pages of questions" 
+                autocomplete="off"
+                maxlength="50"
+              />
+            </div>
+            <div class="quick-text-presets">
+              <button type="button" class="btn-text-chip" data-text="2 Video Lectures">2 Video Lectures</button>
+              <button type="button" class="btn-text-chip" data-text="10 Pages Questions">10 Pages Questions</button>
+              <button type="button" class="btn-text-chip" data-text="50 Test Questions">50 Test Questions</button>
+              <button type="button" class="btn-text-chip" data-text="1 Chapter Study">1 Chapter Study</button>
+            </div>
+            <p class="goal-mode-hint">⏱ Clicking <strong>Focus</strong> will start the Stopwatch from <strong>00:00:00</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button type="button" id="modalCancelBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" id="modalSubmitBtn" class="btn-primary">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FEATURE #13: SESSION REFLECTION & RATING MODAL ================= -->
+  <div id="reflectionModal" class="modal-backdrop hidden">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-dot"></div>
+          <h2 id="reflectionModalTitle">Focus Session Complete! 🎉</h2>
+        </div>
+      </div>
+      <div class="modal-form">
+        <p id="reflectionSubtitle" style="color:#94a3b8; font-size:0.9rem;">Outstanding work! Rate your focus quality and log a quick note.</p>
+
+        <div class="form-group">
+          <label>Focus Quality Rating</label>
+          <div class="star-rating-row" id="starRatingRow">
+            <button type="button" class="btn-star active" data-star="1">⭐</button>
+            <button type="button" class="btn-star active" data-star="2">⭐</button>
+            <button type="button" class="btn-star active" data-star="3">⭐</button>
+            <button type="button" class="btn-star active" data-star="4">⭐</button>
+            <button type="button" class="btn-star active" data-star="5">⭐</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reflectionNoteInput">What did you accomplish? (Optional)</label>
+          <input type="text" id="reflectionNoteInput" placeholder="e.g., Finished 30 calculus problems without distractions" maxlength="100" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="btnSaveReflection" class="btn-primary">Save Session Log</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FEATURE #14: BIG DAY / EXAM COUNTDOWN MODAL ================= -->
+  <div id="bigDayModal" class="modal-backdrop hidden">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-dot"></div>
+          <h2>⏳ Target Milestone / Exam Countdown</h2>
+        </div>
+        <button id="bigDayCloseBtn" class="btn-close" type="button">✕</button>
+      </div>
+      <form id="bigDayForm" class="modal-form">
+        <div class="form-group">
+          <label for="bigDayTitleInput">Event / Exam Name</label>
+          <input type="text" id="bigDayTitleInput" placeholder="e.g., Final Exams, YKS 2027, Project Launch" required maxlength="45" />
+        </div>
+        <div class="form-group">
+          <label for="bigDayDateInput">Target Date</label>
+          <input type="date" id="bigDayDateInput" required />
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Save Target</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FEATURE #16: DAILY WRAP-UP REPORT MODAL ================= -->
+  <div id="wrapUpModal" class="modal-backdrop hidden">
+    <div class="modal-window modal-window-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-dot"></div>
+          <h2>🌅 Daily Wrap-Up Summary</h2>
+        </div>
+        <button id="wrapUpCloseBtn" class="btn-close" type="button">✕</button>
+      </div>
+      <div id="wrapUpContent" class="wrapup-body"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button type="button" id="btnWrapUpExportCard" class="btn-primary">📄 Download Progress Card (PNG)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS MODAL ================= -->
+  <div id="settingsModal" class="modal-backdrop hidden">
+    <div class="modal-window modal-window-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg class="settings-modal-header-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <h2>Settings</h2>
+        </div>
+        <button id="settingsCloseBtn" class="btn-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-content">
+        <!-- Appearance -->
+        <div class="settings-group">
+          <h3>Appearance</h3>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Dark Theme Style</div>
+              <div class="setting-desc">Choose your preferred dark background depth</div>
+            </div>
+            <select id="selectThemeStyle" class="setting-select">
+              <option value="obsidian">Deep Obsidian</option>
+              <option value="oled">Pure OLED Black</option>
+            </select>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Accent Color</div>
+              <div class="setting-desc">Theme color for highlights, glows, and badges</div>
+            </div>
+            <div class="color-swatches">
+              <span class="swatch swatch-purple active" data-color="purple" title="Royal Violet"></span>
+              <span class="swatch swatch-blue" data-color="blue" title="Electric Blue"></span>
+              <span class="swatch swatch-emerald" data-color="emerald" title="Emerald Green"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Focus Goals, Health & Automation -->
+        <div class="settings-group">
+          <h3>Focus Goals, Health & System</h3>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Daily Focus Target (Goal Ring)</div>
+              <div class="setting-desc">Set your daily target minutes for the header progress ring</div>
+            </div>
+            <select id="selectDailyGoalMins" class="setting-select">
+              <option value="60">1 Hour (60m)</option>
+              <option value="120">2 Hours (120m)</option>
+              <option value="180" selected>3 Hours (180m)</option>
+              <option value="240">4 Hours (240m)</option>
+              <option value="360">6 Hours (360m)</option>
+              <option value="480">8 Hours (480m)</option>
+            </select>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Health, Hydration & 20-20-20 Eye Care Nudge</div>
+              <div class="setting-desc">Remind to drink water 💧 and rest eyes 👀 every 30 minutes of focus</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked id="toggleHealthNudge">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Launch ZENITH on Windows Startup</div>
+              <div class="setting-desc">Automatically open ZENITH when you turn on your PC</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleLaunchStartup">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Clock & Sounds -->
+        <div class="settings-group">
+          <h3>Display & Sounds</h3>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">24-Hour Clock Format</div>
+              <div class="setting-desc">Display time in 24-hour (19:30) or 12-hour (07:30 PM) format</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked id="toggle24Hour">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Sound Effects & Native Notifications</div>
+              <div class="setting-desc">Audio & desktop notifications when completing tasks and timers</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked id="toggleSounds">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Daily Midnight Reset (00:00)</div>
+              <div class="setting-desc">Automatically move completed daily tasks back to active at midnight</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked id="toggleDailyReset">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Feature #10: Global Hotkeys Reference -->
+        <div class="settings-group">
+          <h3>Global Keyboard Shortcuts</h3>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Start / Pause Active Timer</div>
+              <div class="setting-desc">Works globally even when ZENITH is minimized</div>
+            </div>
+            <span class="setting-badge">Ctrl + Shift + S</span>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Toggle Break (Mola)</div>
+              <div class="setting-desc">Start or end a break from any application</div>
+            </div>
+            <span class="setting-badge">Ctrl + Shift + B</span>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Toggle Always-On-Top Mini Widget</div>
+              <div class="setting-desc">Switch between full window and compact floating bar</div>
+            </div>
+            <span class="setting-badge">Ctrl + Shift + M</span>
+          </div>
+        </div>
+
+        <!-- Data & Storage -->
+        <div class="settings-group">
+          <h3>Data & Storage</h3>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Backup & Restore</div>
+              <div class="setting-desc">Export or restore all tasks and agenda plans as JSON</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <input type="file" id="importFileInput" accept=".json" style="display:none;">
+              <button id="btnImportData" class="btn-setting-action" type="button">Import JSON</button>
+              <button id="btnExportData" class="btn-setting-action" type="button">Export JSON</button>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="setting-title">Reset All Data</div>
+              <div class="setting-desc">Permanently erase stored tasks and calendar plans</div>
+            </div>
+            <button id="btnClearData" class="btn-setting-danger" type="button">Reset All</button>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="settings-footer-info">
+          <span>ZENITH Focus OS &bull; Version 2.0.0 &bull; All Systems Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DAY DETAIL / AGENDA POPUP ================= -->
+  <div id="dayDetailModal" class="modal-backdrop hidden">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <h2 id="dayDetailDateTitle">Selected Date</h2>
+        </div>
+        <button id="dayDetailCloseBtn" class="btn-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="day-action-bar">
+        <button id="btnOpenAddPlan" class="btn-add-plan" type="button">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Add a Plan</span>
+        </button>
+      </div>
+
+      <div class="day-plans-container">
+        <div class="day-plans-label">PLANNED FOR THIS DAY:</div>
+        <ul id="dayPlansList" class="day-plans-list">
+          <li class="no-plans-msg" id="noPlansMsg">No plans scheduled for this day yet.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADD A PLAN MODAL ================= -->
+  <div id="planModal" class="modal-backdrop hidden">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-dot"></div>
+          <h2>Add a Plan</h2>
+        </div>
+        <button id="planModalCloseBtn" class="btn-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="planForm" class="modal-form">
+        <div class="form-group">
+          <label>Date</label>
+          <div class="plan-target-date" id="planTargetDateDisplay">2026-10-16</div>
+        </div>
+
+        <div class="form-group">
+          <label for="planTitleInput">Plan Title</label>
+          <input 
+            type="text" 
+            id="planTitleInput" 
+            placeholder="e.g., Client meeting, Physics exam, Dentist appointment" 
+            required 
+            autocomplete="off"
+            maxlength="80"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="planTimeInput">Time / Duration</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <input 
+              type="text" 
+              id="planTimeInput" 
+              placeholder="e.g., 14:30, 10:00 AM, All Day" 
+              required
+              autocomplete="off"
+              maxlength="40"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="planDescInput">Notes / Details (Optional)</label>
+          <textarea 
+            id="planDescInput" 
+            rows="3" 
+            placeholder="Add relevant notes or preparation details..."
+            maxlength="300"
+          ></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="planCancelBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" id="planSubmitBtn" class="btn-primary">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Plan</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

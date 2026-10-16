@@ -1,0 +1,30 @@
+# Dependencies (Never upload node_modules to GitHub - Electron binaries exceed 100MB limit)
+node_modules/
+
+# Build & Packaging Outputs
+dist/
+out/
+release/
+build/
+
+# Personal Backups & User Data Exports
+zenith-backup-*.json
+task-backup-*.json
+*.lnk
+*.vbs
+
+# Logs & Environment Variables
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.env
+.env.local
+.env.*.local
+
+# OS & Editor Generated Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
